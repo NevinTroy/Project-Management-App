@@ -3,11 +3,23 @@ import { useMutation } from '@apollo/client';
 import { DELETE_CLIENT } from '../queries/clientMutations';
 
 import {FaTrash} from 'react-icons/fa';
+import { GET_CLIENTS } from '../queries/clientQueries';
 
 const ClientRow = (props) => {
     const {client}=props;
     const [deleteClient]=useMutation(DELETE_CLIENT, {
-        variables: {id :client.id}
+        variables: {id :client.id},
+        //writes to cache and reads from it
+        //delete client changes won't be visible without this updated cache unless reloaded 
+        update(cache, {data:{deleteClient}}){
+            const {clients}= cache.readQuery({ query: GET_CLIENTS});
+            cache.writeQuery({
+                query: GET_CLIENTS,
+                data: {
+                    clients: clients.filter(client => client.id !== deleteClient.id)
+                }
+            })
+        }
     });
 
     return (
