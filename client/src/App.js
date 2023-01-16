@@ -31,10 +31,10 @@ function App() {
   return (
     <>
     <ApolloProvider client={client}> 
-      <Header />
       <div className="container">
-        <Clients />
+        <Header />
         <AddClient />
+        <Clients />
       </div>
     </ApolloProvider>
     </>

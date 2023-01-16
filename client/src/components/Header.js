@@ -5,7 +5,7 @@ const Header = () => {
     <nav className='navbar bg-light mb-4 p-0'>
             <a className='navbar-brand'>
                 <div className='d-flex'>
-                    {/* <img src={project} alt='logo' className='h-10 w-25'/> */}
+                    {/* <img src={project} alt='logo' classNameName='h-10 w-25'/> */}
                     <div>Project Management</div>
                 </div>  
             </a>
