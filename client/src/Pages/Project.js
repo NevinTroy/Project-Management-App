@@ -1,15 +1,25 @@
-import { GET_SINGLE_PROJECT } from "../queries/projectQueries";
-import { Link, useParams } from "react-router-dom";
+import { GET_SINGLE_PROJECT, GET_PROJECTS } from "../queries/projectQueries";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Spinner from "../components/Spinner";
-import { useQuery } from "@apollo/client";
-import { FaEnvelope, FaIdBadge, FaPhone } from "react-icons/fa";
+import { useQuery, useMutation } from "@apollo/client";
+import { FaEnvelope, FaIdBadge, FaPhone, FaTrash } from "react-icons/fa";
+
+import EditProject from "../components/EditProject";
+import DeleteProject from "../components/DeleteProject";
 
 const Project = () => {
+  const navigate=useNavigate();
   const {id}=useParams();
 
   const {loading, error, data} =useQuery(GET_SINGLE_PROJECT,{
     variables:{id}
   });
+
+  // const [deleteProject]=useMutation(DELETE_PROJECT,{
+  //   variables:{id:data.project.id},
+  //   onCompleted:()=> navigate('/'),
+  //   refetchQueries: [{query: GET_PROJECTS}]
+  // });
 
   if(loading) return <Spinner />
   if(error) return <p>Error</p>
@@ -34,8 +44,9 @@ const Project = () => {
             <FaPhone className="icon" />{data.project.client.phone}
           </li>
         </ul>
-
       </div>
+      <EditProject project={data.project} />
+      <DeleteProject projectId={data.project.id} />
     </div>
   )
 }
