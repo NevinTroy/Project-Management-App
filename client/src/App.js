@@ -1,8 +1,10 @@
 import Header from "./components/Header";
-import Clients from "./components/Clients";
-import Projects from "./components/Projects";
+import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
+import Project from './Pages/Project'
+
 import {ApolloProvider, ApolloClient, InMemoryCache} from "@apollo/client";
-import AddClient from "./components/AddClient";
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
 
 const cache=new InMemoryCache({
   typePolicies:{
@@ -32,12 +34,16 @@ function App() {
   return (
     <>
     <ApolloProvider client={client}> 
-      <div className="container">
-        <Header />
-        <AddClient />
-        <Clients />
-        <Projects />
-      </div>
+      <Router>
+        <div className="container">
+          <Header />
+            <Routes>
+              <Route path='/' element={<Home />}></Route>
+              <Route path='/projects/:id' element={<Project />}></Route>
+              <Route path='*' element={<NotFound/>}></Route>
+            </Routes>
+        </div>
+      </Router>
     </ApolloProvider>
     </>
   );
